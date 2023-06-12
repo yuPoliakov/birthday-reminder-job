@@ -1,0 +1,30 @@
+service: birthday-reminder-job
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: prod
+  region: ${env:AWS_REGION}
+  lambdaHashingVersion: 20201221
+  timeout: 20
+  environment: 
+    NODE_ENV: prod
+  apiGateway:
+    shouldStartNameWithService: true
+
+functions:
+  remindersJob:
+    handler: helpers/handler.remindersJob
+    events:
+      - schedule:
+          rate: rate(1 day)
+          enabled: true
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
