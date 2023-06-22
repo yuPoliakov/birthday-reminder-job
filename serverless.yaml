@@ -8,7 +8,7 @@ provider:
   stage: prod
   region: ${env:AWS_REGION}
   lambdaHashingVersion: 20201221
-  timeout: 20
+  timeout: 60
   environment: 
     NODE_ENV: prod
   apiGateway:
@@ -19,7 +19,7 @@ functions:
     handler: helpers/handler.remindersJob
     events:
       - schedule:
-          rate: rate(1 day)
+          rate: cron(0 0 * * ? *)
           enabled: true
 
 plugins:
