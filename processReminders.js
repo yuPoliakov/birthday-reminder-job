@@ -30,6 +30,8 @@ const isTimeToSend = (reminder, time) => {
 }
 
 export const processReminders = async () => {
+    console.log('PROCESS REMINDERS');
+
     await db.connect(dbConfig);
     const allCustomers = await db.findAll();
     const now = Date.now();
@@ -45,4 +47,7 @@ export const processReminders = async () => {
 
         await Promise.all(sendEmailPromises);
     });
+
+    await await db.close();
+    console.log('FINISH');
 }

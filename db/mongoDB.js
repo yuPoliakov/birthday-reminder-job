@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 
-let db;
+let db, client;
 
 function getURIMapping(dbConfig) {
     return {
@@ -12,7 +12,7 @@ function getURIMapping(dbConfig) {
 const connect = async (config) => {
     const uri = getURIMapping(config)[process.env.ENV];
 
-    const client = new MongoClient(uri);
+    client = new MongoClient(uri);
     await client.connect();
 
     db = client.db(config.db);
@@ -38,8 +38,13 @@ const deleteOne = async () => {
     return db.collection('users').deleteOne({ email });
 }
 
+const close = async () => {
+    return client.close();
+}
+
 export default {
     connect,
+    close,
     find,
     findAll,
     createOrUpdate,

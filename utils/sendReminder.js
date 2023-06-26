@@ -5,6 +5,8 @@ export const sendReminder = (email, reminder) => {
 
     var transporter = nodemailer.createTransport({
         service: EMAIL_SERVICE,
+        port: 465,
+        secure: true,
         auth: {
             user: EMAIL_USER,
             pass: EMAIL_PASS
@@ -20,6 +22,8 @@ export const sendReminder = (email, reminder) => {
                 ${reminder.text || ''}
             `
     };
+
+    console.log('SEND REMINDER');
 
     return transporter.sendMail(mailOptions);
 }
